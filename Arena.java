@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Dimension;
 
+// testing to see if this works
+
 
 public class Arena extends JPanel implements Colorable {
 
@@ -30,7 +32,7 @@ public class Arena extends JPanel implements Colorable {
     g.setColor(Color.BLACK);
     g.fillRect(0, 0, width, height);
 
-  
+
 
 
   }
