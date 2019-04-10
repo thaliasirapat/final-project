@@ -3,15 +3,14 @@ import java.util.Random;
 
 public class Item {
 
-  public int positionX, positionY;
+  public Pair position;
   public final int width, height;
   public boolean edible;
   public ArrayList<Item> items;
 
   public Item(boolean edible) {
     Random rand = new Random();
-    positionX = rand.nextInt(1024);
-    positionY = rand.nextInt(768);
+    position = new Pair((double)rand.nextInt(1024), (double)rand.nextInt(768));
     this.edible = edible;
     items = new ArrayList<Item>();
 

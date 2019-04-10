@@ -56,7 +56,7 @@ public class Snake implements Colorable {
   }
 
   // Draw the snake on the screen
-  public void draw(Graphics g){
+  public void drawSnake(Graphics g){
 
     Color c = g.getColor();
     g.setColor(c)
@@ -88,57 +88,66 @@ public class Snake implements Colorable {
 
 
 
-  public void changeDirection(Char c) {
+  public void changeDirection(Char c, Arena arena) {
     if (this.player == 1) {
       if ( c == 'w') {
-        this.velocity.x = 
+        if (this.velocity.y > 0) velocity.flipY();
       }
       else if (c == 's') {
-        changeGravity(1);
+        if (this.velocity.y < 0) velocity.flipY();
       }
       else if ( c == 'a') {
-        changeGravity(2);
+        if(this.velocity.x > 0) velocity.flipX();
       }
       else if ( c == 'd') {
-        changeGravity(3);
+        if(this.velocity.x < 0) velocity.flipX();
       }
-      else if ( c == 'e'){
-        for (Sphere s: world.spheres)
-          s.acceleration.times(2);
-      }
-      else if ( c == 'q') {
-        for (Sphere s: world.spheres)
-          s.acceleration.divide(2);
+      else if ( c == 'l'){
+        System.out.println("Game Over!");
+        System.out.println("Your score is: " + arena.score)
+        exit(0);
+
       }
   }
   else if (this.player == 2) {
     if ( c == 'i') {
-
+      if (this.velocity.y > 0) velocity.flipY();
     }
     else if (c == 'k') {
-
+        if (this.velocity.y < 0) velocity.flipY();
     }
     else if ( c == 'j') {
-
+      if(this.velocity.x > 0) velocity.flipX();
     }
     else if ( c == 'l') {
+      if(this.velocity.x < 0) velocity.flipX();
+    }
+    else if ( c == 'l'){
+      System.out.println("Game Over!");
+      System.out.println("Your score is: " + arena.score)
+      exit(0);
+    }
+    }
+  } // End of changeDirection
 
+  public Item eatItem(ArrayList<Item> items, Arena arena) {
+    for (Item i: items) {
+      if (i.position.x == this.position.x && i.position.y == this.position.y)
+        return i;
     }
-    else if ( c == 'e'){
-      for (Sphere s: world.spheres)
-        s.acceleration.times(2);
+    return null;
+
+  } // End of eatItem
+
+  public void evolve(Item i){
+    if (i.edible) {
+
+      
     }
-    else if ( c == 'q') {
-      for (Sphere s: world.spheres)
-        s.acceleration.divide(2);
+    else{
+      inedibleCount++;
     }
   }
-
-  }
-
-  public boolean eatItem(ArrayList<Item> items)
-
-  public void evolve()
 
   public boolean eatSelf()
 
