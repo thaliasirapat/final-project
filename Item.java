@@ -30,9 +30,11 @@ public class Item {
     return items;
   }
 
+
+  // Draws the array list of items
   public void drawStartItems(Graphics g){
     for(Item n; items) {
-      //Draw it here I guess
+
     }
 
   } // End of drawstartItems
