@@ -5,6 +5,7 @@ public interface Colorable {
 
 }
 
+
 class Pair{
     public double x;
     public double y;
@@ -40,9 +41,10 @@ class Pair{
       return false;
     }
 
-}
+} // end of class Pair
 
 
+// Start of class Snake
 public class Snake implements Colorable {
 
 // We should decide the initialization values for these
@@ -163,6 +165,11 @@ public class Snake implements Colorable {
     }
     else{
       inedibleCount++;
+    }
+    if (inedibleCount > 3){
+      System.out.println("Game over!");
+      System.out.println("Your score is " + arena.score);
+      exit(0);
     }
   }
 

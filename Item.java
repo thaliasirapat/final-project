@@ -6,18 +6,17 @@ public class Item {
   public Pair position;
   public final int width, height;
   public boolean edible;
-  public ArrayList<Item> items;
+
 
   public Item(boolean edible) {
     Random rand = new Random();
     position = new Pair((double)rand.nextInt(1024), (double)rand.nextInt(768));
     this.edible = edible;
-    items = new ArrayList<Item>();
-
   }
   // Called at the start of each game, creates array list of items
-  public void drawstartItems(Graphics g){
+  public ArrayList<Item> startItems(){
     Item n;
+    ArrayList<Item> items;
     for (int i = 0 ; i < 4 ; ++i) {
       if ( i == 0 || i == 1){
         n = new Item(true);
@@ -27,9 +26,11 @@ public class Item {
         n = new Item(false);
         items.add(n);
       }
-
     }
+    return items;
+  }
 
+  public void drawStartItems(Graphics g){
     for(Item n; items) {
       //Draw it here I guess
     }
