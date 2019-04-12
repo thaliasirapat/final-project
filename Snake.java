@@ -6,42 +6,6 @@ public interface Colorable {
 }
 
 
-class Pair{
-    public double x;
-    public double y;
-
-    public Pair(double initX, double initY){
-	     x = initX;
-	     y = initY;
-    }
-
-    public Pair add(Pair toAdd){
-	     return new Pair(x + toAdd.x, y + toAdd.y);
-    }
-
-    public Pair divide(double denom){
-	     return new Pair(x / denom, y / denom);
-    }
-
-    public Pair times(double val){
-	     return new Pair(x * val, y * val);
-    }
-
-    public void flipX(){
-	     x = -x;
-    }
-
-    public void flipY(){
-	     y = -y;
-    }
-    public boolean equalsTo(Pair p) {
-      if (p.x == this.x && p.y == this.y){
-        return true;
-      }
-      return false;
-    }
-
-} // end of class Pair
 
 
 // Start of class Snake
@@ -97,8 +61,6 @@ public class Snake implements Colorable {
     }
   }
 
-
-
   public void changeDirection(char c, Arena arena) {
     if (this.player == 1) {
       if ( c == 'w') {
@@ -113,33 +75,23 @@ public class Snake implements Colorable {
       else if ( c == 'd') {
         if(this.velocity.x < 0) velocity.flipX();
       }
-      else if ( c == 'l'){
-        System.out.println("Game Over!");
-        System.out.println("Your score is: " + arena.score)
-        exit(0);
-
+    }
+    else if (this.player == 2) {
+      if ( c == 'i') {
+        if (this.velocity.y > 0) velocity.flipY();
       }
+      else if (c == 'k') {
+          if (this.velocity.y < 0) velocity.flipY();
+      }
+      else if ( c == 'j') {
+        if(this.velocity.x > 0) velocity.flipX();
+      }
+      else if ( c == 'l') {
+        if(this.velocity.x < 0) velocity.flipX();
+      }
+    }
   }
-  else if (this.player == 2) {
-    if ( c == 'i') {
-      if (this.velocity.y > 0) velocity.flipY();
-    }
-    else if (c == 'k') {
-        if (this.velocity.y < 0) velocity.flipY();
-    }
-    else if ( c == 'j') {
-      if(this.velocity.x > 0) velocity.flipX();
-    }
-    else if ( c == 'l') {
-      if(this.velocity.x < 0) velocity.flipX();
-    }
-    else if ( c == 'l'){
-      System.out.println("Game Over!");
-      System.out.println("Your score is: " + arena.score)
-      exit(0);
-    }
-    }
-  } // End of changeDirection
+    // End of changeDirection
 
   // -----------------------------------------------------------//
 
@@ -214,14 +166,25 @@ public class Snake implements Colorable {
     return hit;
   }
 
-  public void changeColor() {
-    @override
+  @override
+  public void changeColor(char c) {
+    ArrayList<Color> colors = new ArrayList<Color>();
+    colors.add(Color.RED);
+    colors.add(Color.GREEN;
+    colors.add(Color.YELLOW);
+    Random rand = new Random();
+    if (this.player == 1) {
+      if (c == 'q') {
+        this.color = colors.get(rand.nextInt(3));
+      }
+    }
+    else if (this.player = 2) {
+      if (c == 'o') {
+        this.color = colors.get(rand.nextInt(3));
+      }
+    }
   }
-
-
-
 }
-
 
 class Segment extends Snake {
 

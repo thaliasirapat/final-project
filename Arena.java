@@ -47,6 +47,7 @@ public class Arena extends JPanel implements Colorable {
 
   }
 
+  //changes color of the arena as score gets to a value
   @Override
   public void changeColor() {
     if (score > 5 && score <= 10) {
@@ -60,6 +61,7 @@ public class Arena extends JPanel implements Colorable {
     }
     repaint();
   }
+  //end of changeColor
 
   //creates a list of items
   public void createItems() {
