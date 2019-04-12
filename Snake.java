@@ -1,6 +1,8 @@
 public interface Colorable {
 
-  public Color snake1, snake2, arena;
+  public Color snake1;
+  public Color snake2;
+  public Color arena;
   public void changeColor();
 
 }
@@ -34,7 +36,7 @@ public class Snake implements Colorable {
   public void drawSnake(Graphics g){
 
     Color c = g.getColor();
-    g.setColor(c)
+    g.setColor(c);
     for (Segment s: body){
       g.fillRect(s.positionX, s.positionY);
      }
@@ -170,7 +172,7 @@ public class Snake implements Colorable {
   public void changeColor(char c) {
     ArrayList<Color> colors = new ArrayList<Color>();
     colors.add(Color.RED);
-    colors.add(Color.GREEN;
+    colors.add(Color.GREEN);
     colors.add(Color.YELLOW);
     Random rand = new Random();
     if (this.player == 1) {
