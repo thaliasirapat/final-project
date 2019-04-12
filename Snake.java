@@ -34,6 +34,7 @@ class Pair{
     public void flipY(){
 	     y = -y;
     }
+
     public boolean equalsTo(Pair p) {
       if (p.x == this.x && p.y == this.y){
         return true;
@@ -78,8 +79,9 @@ public class Snake implements Colorable {
   // End of draw method
 
 
-// Makes the snake move on the screen, dictates behavior ** DONE **
-  public void update(double time, Arena arena, ArrayList<Item> items){
+// Makes the snake move on the screen, dictates behavior
+// Needs editing
+  public void update(double time, ArrayList<Item> items){
     for (Segment s: body){
       s.position = s.position.add(s.velocity.times(time));
     }
@@ -88,18 +90,16 @@ public class Snake implements Colorable {
       System.out.println("Your score is: " + arena.score );
       exit(0);
     }
-    else if (eatItem(items, arena)) {
+    else if (eatItem(items)) {
       this.evolve();
     }
-
-    if (score == 10){
       arena.changeColor();
-    }
+
   }
 
 
 
-  public void changeDirection(Char c, Arena arena) {
+  public void changeDirection(Char c) {
     if (this.player == 1) {
       if ( c == 'w') {
         if (this.velocity.y > 0) velocity.flipY();
@@ -115,7 +115,7 @@ public class Snake implements Colorable {
       }
       else if ( c == 'l'){
         System.out.println("Game Over!");
-        System.out.println("Your score is: " + arena.score)
+        System.out.println("Your score is: " + arena.score);
         exit(0);
 
       }
@@ -135,7 +135,7 @@ public class Snake implements Colorable {
     }
     else if ( c == 'l'){
       System.out.println("Game Over!");
-      System.out.println("Your score is: " + arena.score)
+      System.out.println("Your score is: " + arena.score);
       exit(0);
     }
     }
@@ -143,7 +143,7 @@ public class Snake implements Colorable {
 
   // -----------------------------------------------------------//
 
-  public Item eatItem(ArrayList<Item> items, Arena arena) {
+  public Item eatItem(ArrayList<Item> items) {
     for (Item i: items) {
       if (i.position.equalsTo(this.position))
         return i;
@@ -153,12 +153,12 @@ public class Snake implements Colorable {
   } // End of eatItem ; I made it return an item instead of a boolean bc I think
   // it might be more helpful
 
-  public void evolve(Item i, Arena arena){
+  public void evolve(Item i){
     Segment s;
     Pair p;
     if (i.edible) {
       s = body.get(body.size());
-      p = s.position.add(new Pair(20,20));
+      p = s.position.add(new Pair(20,20)); // depends which way snake is heading FIX THIS
       body.add(p);
       length++;
       arena.score++;
@@ -197,7 +197,7 @@ public class Snake implements Colorable {
     return b;
   }
 
-  public boolean hitWall(Arena arena) {
+  public boolean hitWall() {
     boolean hit = false;
     if (position.x <= 0){
         hit = true;

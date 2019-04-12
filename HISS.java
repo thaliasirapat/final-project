@@ -19,8 +19,8 @@ public class HISS implements KeyListener {
 
   public void run() {
     while (true) {
-      arena.player1.update(1/FPS, arena, arena.items);
-      arena.player2.update(1/FPS, arena, arena.items);
+      arena.player1.update(1/FPS arena.items);
+      arena.player2.update(1/FPS, arena.items);
       repaint();
     }
 
@@ -29,8 +29,8 @@ public class HISS implements KeyListener {
 
   public void keyPressed(KeyEvent e) {
     char c = e.getKeyChar();
-    arena.player1.changeDirection(c, arena);
-    arena.player2.changeDirection(c, arena);
+    arena.player1.changeDirection(c);
+    arena.player2.changeDirection(c);
 
 
 }

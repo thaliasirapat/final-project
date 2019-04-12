@@ -40,8 +40,9 @@ public class Arena extends JPanel implements Colorable {
 
     player1.drawSnake(g);
     player2.drawSnake(g);
-    
+
     items.drawStartItems(g);
+    repaint();
 
   }
 
