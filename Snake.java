@@ -99,7 +99,7 @@ public class Snake implements Colorable {
 
 
 
-  public void changeDirection(Char c, Arena arena) {
+  public void changeDirection(char c, Arena arena) {
     if (this.player == 1) {
       if ( c == 'w') {
         if (this.velocity.y > 0) velocity.flipY();

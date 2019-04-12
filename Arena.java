@@ -11,6 +11,7 @@ public class Arena extends JPanel implements Colorable {
 
   public static final int width = 1024;
   public static final int height = 768;
+  public static Color color = Color.BLACK;
   public static int score = 0;
   public Snake player1, player2;
   public ArrayList<Item> items;
@@ -19,7 +20,7 @@ public class Arena extends JPanel implements Colorable {
     this.setPreferredSize(new Dimension(width, height));
     player1 = new Snake(1, this);
     player2 = new Snake(2, this);
-    items = Item.startItems();
+    items = new ArrayList<Item>(4);
   }
 
   public static void main(String[] args) {
@@ -35,18 +36,47 @@ public class Arena extends JPanel implements Colorable {
   public void paintComponent(Graphics g){
     super.paintComponent(g);
 
-    g.setColor(Color.BLACK);
+    g.setColor(color);
     g.fillRect(0, 0, width, height);
 
     player1.drawSnake(g);
     player2.drawSnake(g);
-    
-    items.drawStartItems(g);
+
+    createItems();
+    drawItems(g);
 
   }
 
   @Override
-  public void changeColor()
+  public void changeColor() {
+    if (score > 5 && score <= 10) {
+      color = Color.PINK;
+    }
+    if (score > 10 && score <= 15) {
+      color = Color.BLUE;
+    }
+    if (score > 15 && score <= 20) {
+      color = Color.MAGENTA;
+    }
+    repaint();
+  }
+
+  public void createItems() { //creates a list of items
+    boolean edible = true;
+    Item apple = new Item(edible);
+    Item orange = new Item(edible);
+    Item rock = new Item(!edible);
+    items.add(apple);
+    items.add(orange);
+    items.add(rock);
+    items.add(rock);
+  }
+
+  public void drawItems(Graphics g) {
+    for(int i=0; i<items.size(); ++i) {
+      items.get(i).drawItem(g);
+    }
+  }
 
 
 }
