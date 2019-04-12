@@ -61,7 +61,8 @@ public class Arena extends JPanel implements Colorable {
     repaint();
   }
 
-  public void createItems() { //creates a list of items
+  //creates a list of items
+  public void createItems() {
     boolean edible = true;
     Item apple = new Item(edible);
     Item orange = new Item(edible);
@@ -71,12 +72,15 @@ public class Arena extends JPanel implements Colorable {
     items.add(rock);
     items.add(rock);
   }
+  //end of createItems
 
+  //draws the items
   public void drawItems(Graphics g) {
     for(int i=0; i<items.size(); ++i) {
       items.get(i).drawItem(g);
     }
   }
+  //end of drawItems
 
 
 }
