@@ -1,15 +1,3 @@
-public interface Colorable {
-
-  public Color snake1;
-  public Color snake2;
-  public Color arena;
-  public void changeColor();
-
-}
-
-
-
-
 // Start of class Snake
 public class Snake implements Colorable {
 
