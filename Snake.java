@@ -53,7 +53,7 @@ public class Snake implements Colorable {
   private Pair velocity;
   public int length;
   private int inedibleCount = 0;
-  public Segment head;
+  public Segment head; //we may not need this
   public Arraylist<Segment> body;
   private Color color;
   private int player; // we should have player 1 and 2 so the snake responds to different keys
