@@ -17,6 +17,24 @@ public class HISS extends JPanel implements KeyListener {
   public HISS (){
     this.setPreferredSize(new Dimension(arena.width, arena.height));
     addKeyListener(this);
+    Thread mainThread = new Thread(new Runner());
+    mainThread.start();
+  }
+
+  class Runner implements Runnable {
+    public void run() {
+      while (true) {
+        arena.player1.update(1/FPS, arena, arena.items);
+        arena.player2.update(1/FPS, arena, arena.items);
+        arena.update();
+        repaint();
+        try{
+    		    Thread.sleep(1000/FPS);
+    		}
+    		catch(InterruptedException e){
+        }
+      }
+    }
   }
 
   public static void main(String[] args) {
@@ -36,18 +54,10 @@ public class HISS extends JPanel implements KeyListener {
 
     arena.player1.drawSnake(g);
     arena.player2.drawSnake(g);
-
+    arena.drawScore(g);
     arena.createItems();
     arena.drawItems(g);
 
-  }
-
-  public void run() {
-    while (true) {
-      arena.player1.update(1/FPS, arena, arena.items);
-      arena.player2.update(1/FPS, arena, arena.items);
-      repaint();
-    }
   }
 
   public void keyPressed(KeyEvent e) {
@@ -74,6 +84,7 @@ public class HISS extends JPanel implements KeyListener {
   }
   //end of endGame
 }
+
 
 class Pair{
   public double x;

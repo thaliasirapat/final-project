@@ -49,6 +49,7 @@ public class Snake implements Colorable {
     }
     else if (hasEatenItem(items)) {
       this.evolve(itemEaten(items), arena);
+      itemEaten(items).eraseItem();
     }
   }
 
@@ -114,6 +115,7 @@ public class Snake implements Colorable {
       body.add(s);
       length++;
       arena.score++;
+      changeColor();
     }
     else{
       inedibleCount++;

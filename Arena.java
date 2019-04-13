@@ -21,11 +21,9 @@ public class Arena implements Colorable {
     items = new ArrayList<Item>(4);
   }
 
-  public static void main(String[] args) {
+  public void update() {
+    changeColor();
   }
-
-
-
   //changes color of the arena as score gets to a value
   @Override
   public void changeColor() {
@@ -40,6 +38,11 @@ public class Arena implements Colorable {
     }
   }
   //end of changeColor
+
+  public void drawScore(Graphics g) {
+    String scoreString = "Score: " + score;
+    g.drawString(scoreString, 900, 100);
+  }
 
   //creates a list of items
   public void createItems() {
@@ -61,6 +64,5 @@ public class Arena implements Colorable {
     }
   }
   //end of drawItems
-
 
 }
