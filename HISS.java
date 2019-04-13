@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import java.awt.Dimension;
 
 public class HISS extends JPanel implements KeyListener {
+
   public static final int FPS = 60;
   public char c;
   public Arena arena;

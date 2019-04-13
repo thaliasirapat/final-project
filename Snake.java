@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.awt.Graphics;
@@ -8,8 +9,8 @@ public class Snake implements Colorable {
 
 // We should decide the initialization values for these
 
-  private Pair position;
-  private Pair velocity;
+  public Pair position;
+  public Pair velocity;
   public int length;
   private int inedibleCount = 0;
   public Segment head; //we may not need this
@@ -39,8 +40,16 @@ public class Snake implements Colorable {
 
 // Makes the snake move on the screen, dictates behavior ** DONE **
   public void update(double time, Arena arena, ArrayList<Item> items){
+    Snake friend;
+
     for (Segment s: body){
       s.position = s.position.add(velocity.times(time));
+    }
+    if (this.player == 1){
+      friend = arena.player2;
+    }
+    else {
+      friend = arena.player1;
     }
     if (eatSelf() || eatFriend(friend) || hitWall(arena)){
       System.out.println("Game Over!");

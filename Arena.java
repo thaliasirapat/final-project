@@ -1,9 +1,9 @@
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
-// testing to see if this works
 
 
 public class Arena implements Colorable {

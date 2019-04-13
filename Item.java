@@ -3,6 +3,7 @@ import java.util.Random;
 import java.awt.Color;
 import java.awt.Graphics;
 
+
 public class Item {
 
   public Pair position;
