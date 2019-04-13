@@ -3,36 +3,62 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.lang.*;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import java.awt.Dimension;
 
-
-interface Colorable {
-  public Color snake1 = Color.GREEN;
-  public Color snake2 = Color.GREEN;
-  public Color arena = Color.BLACK;
-  public void changeColor();
-
-}
-
-public class HISS implements KeyListener {
+public class HISS extends JPanel implements KeyListener {
 
   public static final int FPS = 60;
   public char c;
   public Arena arena;
 
   public HISS (){
+    this.setPreferredSize(new Dimension(arena.width, arena.height));
     addKeyListener(this);
+    Thread mainThread = new Thread(new Runner());
+    mainThread.start();
+  }
+
+  class Runner implements Runnable {
+    public void run() {
+      while (true) {
+        arena.player1.update(1/FPS, arena, arena.items);
+        arena.player2.update(1/FPS, arena, arena.items);
+        arena.update();
+        repaint();
+        try{
+    		    Thread.sleep(1000/FPS);
+    		}
+    		catch(InterruptedException e){
+        }
+      }
+    }
   }
 
   public static void main(String[] args) {
-
+    JFrame frame = new JFrame("Two Player Snake!");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setContentPane(new HISS());
+    frame.pack();
+    frame.setVisible(true);
   }
 
-  public void run() {
-    while (true) {
-      arena.player1.update(1/FPS, arena, arena.items);
-      arena.player2.update(1/FPS, arena, arena.items);
-      repaint();
-    }
+  @Override
+  public void paintComponent(Graphics g){
+    super.paintComponent(g);
+
+    g.setColor(arena.color);
+    g.fillRect(0, 0, arena.width, arena.height);
+
+    arena.player1.drawSnake(g);
+    arena.player2.drawSnake(g);
+    arena.drawScore(g);
+    arena.createItems();
+    arena.drawItems(g);
+
   }
 
   public void keyPressed(KeyEvent e) {
@@ -42,16 +68,24 @@ public class HISS implements KeyListener {
     endGame(c);
   }
 
+  public void keyReleased(KeyEvent e) {
+    char c = e.getKeyChar();
+  }
+  public void keyTyped(KeyEvent e) {
+    char c = e.getKeyChar();
+  }
+
   //ends the game when user presses a key
   public void endGame(char c) {
     if ( c == 'b'){
       System.out.println("Game Over!");
       System.out.println("Your score is: " + arena.score);
-      exit(0);
+      System.exit(0);
     }
   }
   //end of endGame
 }
+
 
 class Pair{
   public double x;
@@ -88,3 +122,11 @@ class Pair{
     return false;
   }
 } // end of class Pair
+
+interface Colorable {
+  public Color snake1 = Color.GREEN;
+  public Color snake2 = Color.GREEN;
+  public Color arena = Color.BLACK;
+  public void changeColor();
+
+}

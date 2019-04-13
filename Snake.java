@@ -1,12 +1,10 @@
-// imports =======================================================================
 
-import java.util.ArrayList;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.awt.Graphics;
 import java.lang.*;
-import java.util.*;
 
-
+// Start of class Snake
 public class Snake implements Colorable {
 
 // We should decide the initialization values for these
@@ -16,10 +14,11 @@ public class Snake implements Colorable {
   public int length;
   private int inedibleCount = 0;
   public Segment head; //we may not need this
-  public Arraylist<Segment> body;
+  public ArrayList<Segment> body;
   private Color color;
   private int player; // we should have player 1 and 2 so the snake responds to different keys
   public Arena arena; // i think we need to have this so that we can use arena as an argument
+  private Snake friend; //i think we need this variable bc we need to imput a Snake object for the eatFriend() method
 
   public Snake(int player, Arena arena) {
     body = new ArrayList<Segment>();
@@ -30,11 +29,10 @@ public class Snake implements Colorable {
 
   // Draw the snake on the screen
   public void drawSnake(Graphics g){
-
     Color c = g.getColor();
     g.setColor(c);
     for (Segment s: body){
-      g.fillRect(s.position.x, s.position.y);
+      g.fillRect((int)s.position.x, (int)s.position.y, s.width, s.height);
      }
   }
   // End of draw method
@@ -45,25 +43,23 @@ public class Snake implements Colorable {
     Snake friend;
 
     for (Segment s: body){
-      s.position = s.position.add(s.velocity.times(time));
+      s.position = s.position.add(velocity.times(time));
     }
-
     if (this.player == 1){
       friend = arena.player2;
     }
     else {
       friend = arena.player1;
     }
-
     if (eatSelf() || eatFriend(friend) || hitWall(arena)){
       System.out.println("Game Over!");
       System.out.println("Your score is: " + arena.score );
-      exit(0);
+      System.exit(0);
     }
-    else if (eatItem(items, arena)) {
-      this.evolve();
+    else if (hasEatenItem(items)) {
+      this.evolve(itemEaten(items), arena);
+      itemEaten(items).eraseItem();
     }
-
   }
 
   public void changeDirection(char c, Arena arena) {
@@ -100,25 +96,35 @@ public class Snake implements Colorable {
 
   // -----------------------------------------------------------//
 
-  public Item eatItem(ArrayList<Item> items, Arena arena) {
-    for (Item i: items) {
-      if (i.position.equalsTo(this.position))
-        return i;
+  //this method returns the item that the snake eats
+  public Item itemEaten(ArrayList<Item> items) {
+    for (Item item: items) {
+      if (item.position.equalsTo(this.position))
+        return item;
     }
     return null;
 
-  } // End of eatItem ; I made it return an item instead of a boolean bc I think
-  // it might be more helpful
+  } // End of itemEaten
 
-  public void evolve(Item i, Arena arena){
+  public boolean hasEatenItem(ArrayList<Item> items) {
+    for (Item item: items) {
+      if (item.position.equalsTo(this.position)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  public void evolve(Item item, Arena arena){
     Segment s;
-    Pair p;
-    if (i.edible) {
+    if (item.edible) {
       s = body.get(body.size());
-      p = s.position.add(new Pair(20,20));
-      body.add(p);
+      s.position = s.position.add(new Pair(20,20));
+      body.add(s);
       length++;
       arena.score++;
+      changeColor();
     }
     else{
       inedibleCount++;
@@ -126,7 +132,7 @@ public class Snake implements Colorable {
     if (inedibleCount > 3){
       System.out.println("Game over!");
       System.out.println("Your score is " + arena.score);
-      exit(0);
+      System.exit(0);
     }
   }
 
@@ -172,28 +178,20 @@ public class Snake implements Colorable {
   }
 
   @Override
-  public void changeColor(char c) {
-    ArrayList<Color> colors = new ArrayList<Color>();
-    colors.add(Color.RED);
-    colors.add(Color.GREEN);
-    colors.add(Color.YELLOW);
-    Random rand = new Random();
-    if (this.player == 1) {
-      if (c == 'q') {
-        this.color = colors.get(rand.nextInt(3));
-      }
+  public void changeColor() { /*i changed this method so that the snake does not change color based on user input, put does so automatically based on score...like arena */
+    if (arena.score > 5 && arena.score <= 10) {
+      color = Color.PINK;
     }
-    else if (this.player = 2) {
-      if (c == 'o') {
-        this.color = colors.get(rand.nextInt(3));
-      }
+    if (arena.score > 10 && arena.score <= 15) {
+      color = Color.BLUE;
+    }
+    if (arena.score > 15 && arena.score <= 20) {
+      color = Color.MAGENTA;
     }
   }
 }
 
-class Segment extends Snake {
-
-  @override
+class Segment {
   public Pair position;
   public int width = 20;
   public int height = 20;
