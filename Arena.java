@@ -1,10 +1,11 @@
+// imports ==============================================================
+
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Dimension;
-
-// testing to see if this works
+import java.util.ArrayList;
 
 
 public class Arena extends JPanel implements Colorable {

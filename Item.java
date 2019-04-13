@@ -1,5 +1,8 @@
 import java.awt.image;
 import java.util.Random;
+import java.util.ArrayList;
+import java.awt.Color;
+
 
 public class Item {
 

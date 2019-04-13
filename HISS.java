@@ -1,6 +1,9 @@
 import java.util.Random;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.awt.Color;
+
 
 interface Colorable {
   public Color snake1 = Color.GREEN;

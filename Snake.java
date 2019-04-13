@@ -1,10 +1,18 @@
-// Start of class Snake
+// imports =======================================================================
+
+import java.util.ArrayList;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.lang.*;
+import java.util.*;
+
+
 public class Snake implements Colorable {
 
 // We should decide the initialization values for these
 
-  private Pair position;
-  private Pair velocity;
+  public Pair position;
+  public Pair velocity;
   public int length;
   private int inedibleCount = 0;
   public Segment head; //we may not need this
@@ -26,7 +34,7 @@ public class Snake implements Colorable {
     Color c = g.getColor();
     g.setColor(c);
     for (Segment s: body){
-      g.fillRect(s.positionX, s.positionY);
+      g.fillRect(s.position.x, s.position.y);
      }
   }
   // End of draw method
@@ -34,10 +42,20 @@ public class Snake implements Colorable {
 
 // Makes the snake move on the screen, dictates behavior ** DONE **
   public void update(double time, Arena arena, ArrayList<Item> items){
+    Snake friend;
+
     for (Segment s: body){
       s.position = s.position.add(s.velocity.times(time));
     }
-    if (eatSelf() || eatFriend() || hitWall()){
+
+    if (this.player == 1){
+      friend = arena.player2;
+    }
+    else {
+      friend = arena.player1;
+    }
+
+    if (eatSelf() || eatFriend(friend) || hitWall(arena)){
       System.out.println("Game Over!");
       System.out.println("Your score is: " + arena.score );
       exit(0);
@@ -46,9 +64,6 @@ public class Snake implements Colorable {
       this.evolve();
     }
 
-    if (score == 10){
-      arena.changeColor();
-    }
   }
 
   public void changeDirection(char c, Arena arena) {
@@ -156,7 +171,7 @@ public class Snake implements Colorable {
     return hit;
   }
 
-  @override
+  @Override
   public void changeColor(char c) {
     ArrayList<Color> colors = new ArrayList<Color>();
     colors.add(Color.RED);
