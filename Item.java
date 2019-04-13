@@ -1,5 +1,7 @@
-import java.awt.image;
+import java.awt.Image;
 import java.util.Random;
+import java.awt.Color;
+import java.awt.Graphics;
 
 public class Item {
 
@@ -17,7 +19,8 @@ public class Item {
 
   // Draw new items once one is eaten
   public void drawItem(Graphics g) {
-    boolean randomBoolean = nextBoolean();
+    Random rand = new Random();
+    boolean randomBoolean = rand.nextBoolean();
     if (edible == true) {
       if (randomBoolean) {
         g.setColor(Color.RED); //red for apple
@@ -29,7 +32,7 @@ public class Item {
     else {
       g.setColor(Color.GRAY); //gray for rocks
     }
-    g.fillRect(position.x, position.y, this.width, this.height);
+    g.fillRect((int)position.x, (int)position.y, this.width, this.height);
 
   }
   //end of drawItem

@@ -1,13 +1,12 @@
-import javax.swing.JPanel;
-import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 // testing to see if this works
 
 
-public class Arena extends JPanel implements Colorable {
+public class Arena implements Colorable {
 
   public static final int width = 1024;
   public static final int height = 768;
@@ -17,35 +16,15 @@ public class Arena extends JPanel implements Colorable {
   public ArrayList<Item> items;
 
   public Arena () {
-    this.setPreferredSize(new Dimension(width, height));
     player1 = new Snake(1, this);
     player2 = new Snake(2, this);
     items = new ArrayList<Item>(4);
   }
 
   public static void main(String[] args) {
-    JFrame frame = new JFrame("Two Player Snake!");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setContentPane(new Arena());
-    frame.pack();
-    frame.setVisible(true);
-
   }
 
-  @Override
-  public void paintComponent(Graphics g){
-    super.paintComponent(g);
 
-    g.setColor(color);
-    g.fillRect(0, 0, width, height);
-
-    player1.drawSnake(g);
-    player2.drawSnake(g);
-
-    createItems();
-    drawItems(g);
-
-  }
 
   //changes color of the arena as score gets to a value
   @Override
@@ -59,7 +38,6 @@ public class Arena extends JPanel implements Colorable {
     if (score > 15 && score <= 20) {
       color = Color.MAGENTA;
     }
-    repaint();
   }
   //end of changeColor
 
