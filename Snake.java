@@ -18,7 +18,7 @@ public class Snake implements Colorable {
   private Color color;
   private int player; // we should have player 1 and 2 so the snake responds to different keys
   public Arena arena; // i think we need to have this so that we can use arena as an argument
-  private Snake friend; //i think we need this variable bc we need to imput a Snake object for the eatFriend() method
+
 
   public Snake(int player, Arena arena) {
     body = new ArrayList<Segment>();
@@ -45,12 +45,15 @@ public class Snake implements Colorable {
     for (Segment s: body){
       s.position = s.position.add(velocity.times(time));
     }
+
+
     if (this.player == 1){
       friend = arena.player2;
     }
     else {
       friend = arena.player1;
     }
+
     if (eatSelf() || eatFriend(friend) || hitWall(arena)){
       System.out.println("Game Over!");
       System.out.println("Your score is: " + arena.score );
