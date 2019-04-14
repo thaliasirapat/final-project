@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 
+
 public class Item {
 
   public Pair position;
@@ -18,6 +19,7 @@ public class Item {
     this.position = new Pair((double)rand.nextInt(Arena.width - width), (double)rand.nextInt(Arena.height - height));
     this.edible = edible;
   }
+
 
   // Draw new items once one is eaten
   public void drawItem(Graphics g) {

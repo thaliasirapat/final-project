@@ -17,11 +17,11 @@ public class HISS extends JPanel implements KeyListener {
 
 
   public HISS (){
+    arena = new Arena();
     this.setPreferredSize(new Dimension(arena.width, arena.height));
     addKeyListener(this);
     Thread mainThread = new Thread(new Runner());
     mainThread.start();
-    arena = new Arena();
   }
 
   class Runner implements Runnable {
@@ -56,7 +56,6 @@ public class HISS extends JPanel implements KeyListener {
     arena.player1.drawSnake(g);
     arena.player2.drawSnake(g);
     arena.drawScore(g);
-    arena.createItems();
     arena.drawItems(g);
 
   }
@@ -67,13 +66,22 @@ public class HISS extends JPanel implements KeyListener {
     arena.player2.changeDirection(c);
     endGame(c);
   }
-
   public void keyReleased(KeyEvent e) {
-    char c = e.getKeyChar();
+     char c = e.getKeyChar();
+     System.out.println("\tYou let go of: " + c);
+
   }
+
   public void keyTyped(KeyEvent e) {
     char c = e.getKeyChar();
+    System.out.println("You typed: " + c);
   }
+
+   public void addNotify() {
+      super.addNotify();
+      requestFocus();
+  }
+
 
   //ends the game when user presses a key
   public void endGame(char c) {
