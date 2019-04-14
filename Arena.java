@@ -44,7 +44,7 @@ public class Arena implements Colorable {
 
   //creates a list of items
   public ArrayList<Item> createItems() {
-    ArrayList<Item> items = new ArrayList<Item>();
+    ArrayList<Item> items = new ArrayList<Item>(4);
     boolean edible = true;
     Item apple = new Item(edible);
     Item rock = new Item(!edible);

@@ -97,7 +97,7 @@ public class HISS extends JPanel implements KeyListener {
 
 // NOT WORKING; REWRITE
   public void change(int x, int y, Snake snake) {
-    Pair changePosition = snake.position;
+    Pair changePosition = snake.position.add(new Pair(5,5));
 
     for (Segment s: snake.body) {
       if (s.position.equalsTo(changePosition))
