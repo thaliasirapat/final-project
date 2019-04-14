@@ -11,31 +11,35 @@ public class Snake implements Colorable {
 
   public Pair position;
   public Pair velocity = new Pair(0, -20);
-  public int length = 1;
+  public int length = 2;
   private int inedibleCount = 0;
   public ArrayList<Segment> body;
   private Color color = Color.GREEN;
   private int player; // we should have player 1 and 2 so the snake responds to different keys
   public Arena arena; // i think we need to have this so that we can use arena as an argument
+  private Snake friend;
 
 
 
   public Snake(int player, Arena arena) {
     this.player = player;
     this.arena = arena;
-    Segment s;
+    Segment s1;
 
     if (player == 1) {
       position = new Pair(341,384);
-      s = new Segment(position);
+      s1 = new Segment(position);
     }
-    else{
+    else {
       position = new Pair(682,384);
-      s = new Segment(position);
+      s1 = new Segment(position);
     }
 
     body = new ArrayList<Segment>();
-    body.add(s);
+    body.add(s1);
+    Segment s2;
+    s2 = new Segment(position.add(new Pair(20,20)));
+    body.add(s2);
   }
 
 
@@ -52,17 +56,16 @@ public class Snake implements Colorable {
   }
   // End of draw method
 
-  public void move(double time) {
+   public void move(double time) {
     for (Segment s: body){
+      position = position.add(velocity.times(time));
       s.position = s.position.add(velocity.times(time));
     }
   }
 
 
 // Makes the snake move on the screen, dictates behavior ** DONE **
-  public void update(double time){
-    Snake friend;
-
+  public void update(double time) {
     this.move(time);
 
     if (this.player == 1){
@@ -82,41 +85,50 @@ public class Snake implements Colorable {
       this.evolve(i);
       i.eraseItem();
     }
-  }
+  }  // end of update method
+
 
   public void changeDirection(char c) {
     if (this.player == 1) {
       if ( c == 'w') {
-        velocity = new Pair(0,-20);
+        change(0,-20);
       }
       else if (c == 's') {
-        velocity = new Pair(0,20);
+        change(0,20);
       }
       else if ( c == 'a') {
-        velocity = new Pair(-20,0);
+        change(-20,0);
       }
       else if ( c == 'd') {
-        velocity = new Pair(20,0);
+        change(20,0);
       }
     }
     else if (this.player == 2) {
       if ( c == 'i') {
-        velocity = new Pair(0,-20);
+        change(0,-20);
       }
       else if (c == 'k') {
-          velocity = new Pair(0,20);
+        change(0,20);
       }
       else if ( c == 'j') {
-        velocity = new Pair(-20,0);
+        change(-20,0);
       }
       else if ( c == 'l') {
-        velocity = new Pair(20,0);
+        change(20,0);
       }
     }
   }
-    // End of changeDirection
 
-  // -----------------------------------------------------------//
+  public void change(int x, int y) {
+    Pair changePosition = this.position;
+    for (Segment s: this.body) {
+      if (s.position.equalsTo(changePosition))
+        s.velocity = new Pair(x,y);
+    }
+  }
+
+
+  // ----------------------------------------------------------
 
   //this method returns the item that the snake eats
   public Item itemEaten(ArrayList<Item> items) {
@@ -137,7 +149,7 @@ public class Snake implements Colorable {
     return false;
   }
 
-// THALIA CHANGE THIS PLS
+
   public void evolve(Item item){
     Segment s;
     Segment toAdd;
@@ -226,15 +238,26 @@ public class Snake implements Colorable {
       color = Color.MAGENTA;
     }
   }
+// debugging method
+  public void printSnake(){
+    for (Segment s: body)
+      System.out.println(s);
+  }
+
 }
 
 class Segment {
   public Pair position;
+  public Pair velocity;
   public int width = 20;
   public int height = 20;
 
   public Segment(Pair position) {
     this.position = position;
+  }
+
+  public String toString(){
+    return "X: " + position.x + "  " + "Y: " + position.y;
   }
 
 }

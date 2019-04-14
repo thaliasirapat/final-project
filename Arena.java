@@ -14,7 +14,7 @@ public class Arena implements Colorable {
   public Snake player2;
 
   public Arena () {
-    items = new ArrayList<Item>(4);
+    items = createItems();
     player1 = new Snake(1, this);
     player2 = new Snake(2, this);
   }
@@ -40,21 +40,20 @@ public class Arena implements Colorable {
   }
   //end of changeColor
 
-  public void drawScore(Graphics g) {
-    String scoreString = "Score: " + score;
-    g.drawString(scoreString, 900, 100);
-  }
-
   //creates a list of items
-  public void createItems() {
+  public ArrayList<Item> createItems() {
+    ArrayList<Item> items = new ArrayList<Item>();
     boolean edible = true;
     Item apple = new Item(edible);
     Item rock = new Item(!edible);
     items.add(apple);
     items.add(rock);
     items.add(rock);
+    return items;
   }
   //end of createItems
+
+
 
   //draws the items
   public void drawItems(Graphics g) {
@@ -63,5 +62,12 @@ public class Arena implements Colorable {
     }
   }
   //end of drawItems
+
+  public void drawScore(Graphics g) {
+    String scoreString = "Score: " + score;
+    g.drawString(scoreString, 900, 100);
+  }
+
+
 
 }
