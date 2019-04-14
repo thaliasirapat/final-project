@@ -1,29 +1,30 @@
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
-
-
 public class Arena implements Colorable {
-
   public static final int width = 1024;
   public static final int height = 768;
+  public static final int FPS = 60;
   public static Color color = Color.BLACK;
   public static int score = 0;
-  public Snake player1, player2;
   public ArrayList<Item> items;
+  public Snake player1;
+  public Snake player2;
 
   public Arena () {
-    player1 = new Snake(1, this);
-    player2 = new Snake(2, this);
     items = new ArrayList<Item>(4);
+    player1 = new Snake(1);
+    player2 = new Snake(2);
   }
 
   public void update() {
+    player1.update((double)(1/FPS), this);
+    player2.update((double)(1/FPS), this);
     changeColor();
   }
+
   //changes color of the arena as score gets to a value
   @Override
   public void changeColor() {
@@ -48,10 +49,8 @@ public class Arena implements Colorable {
   public void createItems() {
     boolean edible = true;
     Item apple = new Item(edible);
-    Item orange = new Item(edible);
     Item rock = new Item(!edible);
     items.add(apple);
-    items.add(orange);
     items.add(rock);
     items.add(rock);
   }

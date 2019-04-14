@@ -15,18 +15,18 @@ public class HISS extends JPanel implements KeyListener {
   public char c;
   public Arena arena;
 
+
   public HISS (){
     this.setPreferredSize(new Dimension(arena.width, arena.height));
     addKeyListener(this);
     Thread mainThread = new Thread(new Runner());
     mainThread.start();
+    arena = new Arena();
   }
 
   class Runner implements Runnable {
     public void run() {
       while (true) {
-        arena.player1.update(1/FPS, arena, arena.items);
-        arena.player2.update(1/FPS, arena, arena.items);
         arena.update();
         repaint();
         try{

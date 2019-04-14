@@ -1,8 +1,8 @@
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.lang.*;
+
 
 // Start of class Snake
 public class Snake implements Colorable {
@@ -10,22 +10,32 @@ public class Snake implements Colorable {
 // We should decide the initialization values for these
 
   public Pair position;
-  public Pair velocity;
-  public int length;
+  public Pair velocity = new Pair(0, -20);
+  public int length = 1;
   private int inedibleCount = 0;
-  public Segment head; //we may not need this
   public ArrayList<Segment> body;
-  private Color color;
+  private Color color = Color.GREEN;
   private int player; // we should have player 1 and 2 so the snake responds to different keys
   public Arena arena; // i think we need to have this so that we can use arena as an argument
-  private Snake friend; //i think we need this variable bc we need to imput a Snake object for the eatFriend() method
 
-  public Snake(int player, Arena arena) {
-    body = new ArrayList<Segment>();
+
+  public Snake(int player) {
     this.player = player;
-    this.arena = arena;
-
+    Segment s;
+    if (player == 1) {
+      position = new Pair(341,384);
+      s = new Segment(position);
+    }
+    else{
+      position = new Pair(682,384);
+      s = new Segment(position);
+    }
+    body = new ArrayList<Segment>(1);
+    body.add(s);
   }
+
+
+
 
   // Draw the snake on the screen
   public void drawSnake(Graphics g){
@@ -39,56 +49,58 @@ public class Snake implements Colorable {
 
 
 // Makes the snake move on the screen, dictates behavior ** DONE **
-  public void update(double time, Arena arena, ArrayList<Item> items){
+  public void update(double time, Arena arena){
     Snake friend;
 
     for (Segment s: body){
       s.position = s.position.add(velocity.times(time));
     }
+
     if (this.player == 1){
       friend = arena.player2;
     }
     else {
       friend = arena.player1;
     }
+
     if (eatSelf() || eatFriend(friend) || hitWall(arena)){
       System.out.println("Game Over!");
       System.out.println("Your score is: " + arena.score );
       System.exit(0);
     }
-    else if (hasEatenItem(items)) {
-      this.evolve(itemEaten(items), arena);
-      itemEaten(items).eraseItem();
+    else if (hasEatenItem(arena.items)) {
+      this.evolve(itemEaten(arena.items), arena);
+      itemEaten(arena.items).eraseItem();
     }
   }
 
   public void changeDirection(char c, Arena arena) {
     if (this.player == 1) {
       if ( c == 'w') {
-        if (this.velocity.y > 0) velocity.flipY();
+        velocity = new Pair(0,-20);
       }
       else if (c == 's') {
-        if (this.velocity.y < 0) velocity.flipY();
+        velocity = new Pair(0,20);
       }
       else if ( c == 'a') {
-        if(this.velocity.x > 0) velocity.flipX();
+        velocity = new Pair(-20,0);
       }
       else if ( c == 'd') {
-        if(this.velocity.x < 0) velocity.flipX();
+        velocity = new Pair(20,0);
       }
     }
     else if (this.player == 2) {
       if ( c == 'i') {
-        if (this.velocity.y > 0) velocity.flipY();
+        velocity = new Pair(0,-20);
       }
       else if (c == 'k') {
-          if (this.velocity.y < 0) velocity.flipY();
+          velocity = new Pair(0,20);
       }
       else if ( c == 'j') {
-        if(this.velocity.x > 0) velocity.flipX();
+        velocity = new Pair(-20,0);
       }
       else if ( c == 'l') {
-        if(this.velocity.x < 0) velocity.flipX();
+        velocity = new Pair(20,0);
       }
     }
   }
@@ -115,7 +127,7 @@ public class Snake implements Colorable {
     return false;
   }
 
-
+// THALIA CHANGE THIS PLS
   public void evolve(Item item, Arena arena){
     Segment s;
     if (item.edible) {
