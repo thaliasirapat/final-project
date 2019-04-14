@@ -10,6 +10,7 @@ public class Snake implements Colorable {
 // We should decide the initialization values for these
 
   public Pair position;
+  public Pair velocity;
   public int length = 2;
   private int inedibleCount = 0;
   public ArrayList<Segment> body;
@@ -39,6 +40,7 @@ public class Snake implements Colorable {
     Segment s2;
     s2 = new Segment(position.add(new Pair(20,20)));
     body.add(s2);
+    this.velocity = body.get(0).velocity;
   }
 
 

@@ -17,17 +17,17 @@ public class HISS extends JPanel implements KeyListener {
 
 
   public HISS (){
+    arena = new Arena();
     this.setPreferredSize(new Dimension(arena.width, arena.height));
     addKeyListener(this);
     Thread mainThread = new Thread(new Runner());
     mainThread.start();
-    arena = new Arena();
   }
 
   class Runner implements Runnable {
     public void run() {
       while (true) {
-        // arena.update();
+        arena.update();
         repaint();
         try{
     		    Thread.sleep(1000/FPS);
