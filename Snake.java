@@ -10,7 +10,6 @@ public class Snake implements Colorable {
 // We should decide the initialization values for these
 
   public Pair position;
-  public Pair velocity = new Pair(0, -20);
   public int length = 2;
   private int inedibleCount = 0;
   public ArrayList<Segment> body;
@@ -254,6 +253,7 @@ class Segment {
 
   public Segment(Pair position) {
     this.position = position;
+    this.velocity = new Pair (0,-20);
   }
 
   public String toString(){
