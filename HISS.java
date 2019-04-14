@@ -62,6 +62,12 @@ public class HISS extends JPanel implements KeyListener {
 
   }
 
+/* Things to fix + Issues
+  - it closes on its own after a while (?)
+  - change method not responding
+  - the way the snake moves; the head has to be the focus of the snake
+
+*/
   public void keyPressed(KeyEvent e) {
     char c = e.getKeyChar();
 
@@ -72,6 +78,7 @@ public class HISS extends JPanel implements KeyListener {
       change(0,-20, s1);
     }
     else if (c == 's') {
+      s1.velocity = new Pair(0, 20);
       change(0,20, s1);
     }
     else if ( c == 'a') {
