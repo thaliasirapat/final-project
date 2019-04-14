@@ -63,8 +63,8 @@ public class HISS extends JPanel implements KeyListener {
 
   public void keyPressed(KeyEvent e) {
     char c = e.getKeyChar();
-    arena.player1.changeDirection(c, arena);
-    arena.player2.changeDirection(c, arena);
+    arena.player1.changeDirection(c);
+    arena.player2.changeDirection(c);
     endGame(c);
   }
 
@@ -117,6 +117,20 @@ class Pair{
   }
   public boolean equalsTo(Pair p) {
     if (p.x == this.x && p.y == this.y){
+      return true;
+    }
+    return false;
+  }
+
+  public boolean isPositiveX() {
+    if (this.x > 0) {
+      return true;
+    }
+    return false;
+  }
+
+  public boolean isPositiveY() {
+    if (this.y > 0) {
       return true;
     }
     return false;

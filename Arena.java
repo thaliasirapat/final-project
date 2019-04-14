@@ -15,13 +15,13 @@ public class Arena implements Colorable {
 
   public Arena () {
     items = new ArrayList<Item>(4);
-    player1 = new Snake(1);
-    player2 = new Snake(2);
+    player1 = new Snake(1, this);
+    player2 = new Snake(2, this);
   }
 
   public void update() {
-    player1.update((double)(1/FPS), this);
-    player2.update((double)(1/FPS), this);
+    player1.update((double)1/FPS);
+    player2.update((double)1/FPS);
     changeColor();
   }
 

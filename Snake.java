@@ -19,9 +19,12 @@ public class Snake implements Colorable {
   public Arena arena; // i think we need to have this so that we can use arena as an argument
 
 
-  public Snake(int player) {
+
+  public Snake(int player, Arena arena) {
     this.player = player;
+    this.arena = arena;
     Segment s;
+
     if (player == 1) {
       position = new Pair(341,384);
       s = new Segment(position);
@@ -30,7 +33,8 @@ public class Snake implements Colorable {
       position = new Pair(682,384);
       s = new Segment(position);
     }
-    body = new ArrayList<Segment>(1);
+
+    body = new ArrayList<Segment>();
     body.add(s);
   }
 
@@ -41,20 +45,25 @@ public class Snake implements Colorable {
   public void drawSnake(Graphics g){
     Color c = g.getColor();
     g.setColor(c);
+
     for (Segment s: body){
       g.fillRect((int)s.position.x, (int)s.position.y, s.width, s.height);
      }
   }
   // End of draw method
 
-
-// Makes the snake move on the screen, dictates behavior ** DONE **
-  public void update(double time, Arena arena){
-    Snake friend;
-
+  public void move(double time) {
     for (Segment s: body){
       s.position = s.position.add(velocity.times(time));
     }
+  }
+
+
+// Makes the snake move on the screen, dictates behavior ** DONE **
+  public void update(double time){
+    Snake friend;
+
+    this.move(time);
 
     if (this.player == 1){
       friend = arena.player2;
@@ -63,18 +72,19 @@ public class Snake implements Colorable {
       friend = arena.player1;
     }
 
-    if (eatSelf() || eatFriend(friend) || hitWall(arena)){
+    if (eatSelf() || eatFriend(friend) || hitWall()){
       System.out.println("Game Over!");
       System.out.println("Your score is: " + arena.score );
       System.exit(0);
     }
     else if (hasEatenItem(arena.items)) {
-      this.evolve(itemEaten(arena.items), arena);
-      itemEaten(arena.items).eraseItem();
+      Item i = itemEaten(arena.items);
+      this.evolve(i);
+      i.eraseItem();
     }
   }
 
-  public void changeDirection(char c, Arena arena) {
+  public void changeDirection(char c) {
     if (this.player == 1) {
       if ( c == 'w') {
         velocity = new Pair(0,-20);
@@ -128,12 +138,27 @@ public class Snake implements Colorable {
   }
 
 // THALIA CHANGE THIS PLS
-  public void evolve(Item item, Arena arena){
+  public void evolve(Item item){
     Segment s;
+    Segment toAdd;
     if (item.edible) {
       s = body.get(body.size());
-      s.position = s.position.add(new Pair(20,20));
-      body.add(s);
+
+      if (this.velocity.isPositiveX()) {
+        toAdd = new Segment(new Pair(s.position.x-20, s.position.y));
+      }
+      else{
+        toAdd = new Segment(new Pair(s.position.x + 20, s.position.y));
+      }
+
+      if (this.velocity.isPositiveY()) {
+        toAdd = new Segment(new Pair(s.position.x, s.position.y - 20));
+      }
+      else{
+        toAdd = new Segment(new Pair(s.position.x, s.position.y + 20));
+      }
+
+      body.add(toAdd);
       length++;
       arena.score++;
       changeColor();
@@ -172,7 +197,7 @@ public class Snake implements Colorable {
     return b;
   }
 
-  public boolean hitWall(Arena arena) {
+  public boolean hitWall() {
     boolean hit = false;
     if (position.x <= 0){
         hit = true;
