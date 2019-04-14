@@ -15,7 +15,7 @@ public class Snake implements Colorable {
   private int inedibleCount = 0;
   public ArrayList<Segment> body;
   private Color color = Color.GREEN;
-  private int player; // we should have player 1 and 2 so the snake responds to different keys
+  public int player; // we should have player 1 and 2 so the snake responds to different keys
   public Arena arena; // i think we need to have this so that we can use arena as an argument
   private Snake friend;
 
@@ -38,18 +38,16 @@ public class Snake implements Colorable {
     body = new ArrayList<Segment>();
     body.add(s1);
     Segment s2;
-    s2 = new Segment(position.add(new Pair(20,20)));
+    s2 = new Segment(position.add(new Pair(0,20)));
     body.add(s2);
     this.velocity = body.get(0).velocity;
   }
 
 
-
-
   // Draw the snake on the screen
   public void drawSnake(Graphics g){
-    Color c = g.getColor();
-    g.setColor(c);
+    // Color c = g.getColor();
+    g.setColor(Color.GREEN);
 
     for (Segment s: body){
       g.fillRect((int)s.position.x, (int)s.position.y, s.width, s.height);
@@ -70,10 +68,10 @@ public class Snake implements Colorable {
     this.move(time);
 
     if (this.player == 1){
-      friend = arena.player2;
+      friend = arena.snakes.get(1);
     }
     else {
-      friend = arena.player1;
+      friend = arena.snakes.get(0);
     }
 
     if (eatSelf() || eatFriend(friend) || hitWall()){
@@ -88,45 +86,6 @@ public class Snake implements Colorable {
     }
   }  // end of update method
 
-
-  public void changeDirection(char c) {
-    if (this.player == 1) {
-      if ( c == 'w') {
-        change(0,-20);
-      }
-      else if (c == 's') {
-        change(0,20);
-      }
-      else if ( c == 'a') {
-        change(-20,0);
-      }
-      else if ( c == 'd') {
-        change(20,0);
-      }
-    }
-    else if (this.player == 2) {
-      if ( c == 'i') {
-        change(0,-20);
-      }
-      else if (c == 'k') {
-        change(0,20);
-      }
-      else if ( c == 'j') {
-        change(-20,0);
-      }
-      else if ( c == 'l') {
-        change(20,0);
-      }
-    }
-  }
-
-  public void change(int x, int y) {
-    Pair changePosition = this.position;
-    for (Segment s: this.body) {
-      if (s.position.equalsTo(changePosition))
-        s.velocity = new Pair(x,y);
-    }
-  }
 
 
   // ----------------------------------------------------------
@@ -239,11 +198,7 @@ public class Snake implements Colorable {
       color = Color.MAGENTA;
     }
   }
-// debugging method
-  public void printSnake(){
-    for (Segment s: body)
-      System.out.println(s);
-  }
+
 
 }
 

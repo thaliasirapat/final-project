@@ -10,18 +10,20 @@ public class Arena implements Colorable {
   public static Color color = Color.BLACK;
   public static int score = 0;
   public ArrayList<Item> items;
-  public Snake player1;
-  public Snake player2;
+  public ArrayList<Snake> snakes;
+
 
   public Arena () {
     items = createItems();
-    player1 = new Snake(1, this);
-    player2 = new Snake(2, this);
+    snakes = new ArrayList<Snake>(2);
+    snakes.add(new Snake(1, this));
+    snakes.add(new Snake(2, this));
   }
 
   public void update() {
-    player1.update((double)1/FPS);
-    player2.update((double)1/FPS);
+    for (Snake s: snakes){
+      s.update((double)1/FPS);
+    }
     changeColor();
   }
 

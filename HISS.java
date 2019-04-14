@@ -53,8 +53,10 @@ public class HISS extends JPanel implements KeyListener {
     g.setColor(arena.color);
     g.fillRect(0, 0, arena.width, arena.height);
 
-    arena.player1.drawSnake(g);
-    arena.player2.drawSnake(g);
+    for (Snake s: arena.snakes){
+      s.drawSnake(g);
+    }
+
     arena.drawScore(g);
     arena.drawItems(g);
 
@@ -62,10 +64,47 @@ public class HISS extends JPanel implements KeyListener {
 
   public void keyPressed(KeyEvent e) {
     char c = e.getKeyChar();
-    arena.player1.changeDirection(c);
-    arena.player2.changeDirection(c);
-    endGame(c);
+
+    Snake s1 = arena.snakes.get(0);
+    Snake s2 = arena.snakes.get(1);
+
+    if ( c == 'w') {
+      change(0,-20, s1);
+    }
+    else if (c == 's') {
+      change(0,20, s1);
+    }
+    else if ( c == 'a') {
+      change(-20,0,s1);
+    }
+    else if ( c == 'd') {
+      change(20,0,s1 );
+    }
+
+    if ( c == 'i') {
+      change(0,-20, s2);
+    }
+    else if (c == 'k') {
+      change(0,20, s2);
+    }
+    else if ( c == 'j') {
+      change(-20,0, s2);
+    }
+    else if ( c == 'l') {
+      change(20,0, s2);
+    }
   }
+
+// NOT WORKING; REWRITE
+  public void change(int x, int y, Snake snake) {
+    Pair changePosition = snake.position;
+
+    for (Segment s: snake.body) {
+      if (s.position.equalsTo(changePosition))
+        s.velocity = new Pair(x,y);
+    }
+  }
+
   public void keyReleased(KeyEvent e) {
      char c = e.getKeyChar();
      System.out.println("\tYou let go of: " + c);
