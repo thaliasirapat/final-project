@@ -23,6 +23,7 @@ public class Arena implements Colorable {
 
   public void update() {
     changeColor();
+    
   }
   //changes color of the arena as score gets to a value
   @Override
