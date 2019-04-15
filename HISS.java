@@ -12,9 +12,8 @@ import java.awt.Dimension;
 public class HISS extends JPanel implements KeyListener {
 
   public static final int FPS = 60;
-  public char c;
   public Arena arena;
-
+  public char c;
 
   public HISS (){
     arena = new Arena();
@@ -24,10 +23,32 @@ public class HISS extends JPanel implements KeyListener {
     mainThread.start();
   }
 
+  @Override
+  public void keyPressed(KeyEvent e) {
+    char c = e.getKeyChar();
+    arena.snakes.get(0).changeVelocity(c);
+    arena.snakes.get(1).changeVelocity(c);
+  }
+
+  @Override
+  public void keyReleased(KeyEvent e) {
+     char c = e.getKeyChar();
+   }
+
+  @Override
+  public void keyTyped(KeyEvent e) {
+    char c = e.getKeyChar();
+  }
+
+  public void addNotify() {
+      super.addNotify();
+      requestFocus();
+  }
+
   class Runner implements Runnable {
     public void run() {
       while (true) {
-        arena.update();
+        arena.update(FPS);
         repaint();
         try{
     		    Thread.sleep(1000/FPS);
@@ -52,48 +73,11 @@ public class HISS extends JPanel implements KeyListener {
 
     g.setColor(arena.color);
     g.fillRect(0, 0, arena.width, arena.height);
-
-    arena.player1.drawSnake(g);
-    arena.player2.drawSnake(g);
-    arena.drawScore(g);
     arena.drawItems(g);
-
+    arena.drawSnakes(g);
+    arena.drawScore(g);
   }
-
-  public void keyPressed(KeyEvent e) {
-    char c = e.getKeyChar();
-    arena.player1.changeDirection(c);
-    arena.player2.changeDirection(c);
-    endGame(c);
-  }
-  public void keyReleased(KeyEvent e) {
-     char c = e.getKeyChar();
-     System.out.println("\tYou let go of: " + c);
-
-  }
-
-  public void keyTyped(KeyEvent e) {
-    char c = e.getKeyChar();
-    System.out.println("You typed: " + c);
-  }
-
-   public void addNotify() {
-      super.addNotify();
-      requestFocus();
-  }
-
-
-  //ends the game when user presses a key
-  public void endGame(char c) {
-    if ( c == 'b'){
-      System.out.println("Game Over!");
-      System.out.println("Your score is: " + arena.score);
-      System.exit(0);
-    }
-  }
-  //end of endGame
 }
-
 
 class Pair{
   public double x;
@@ -143,12 +127,8 @@ class Pair{
     }
     return false;
   }
-} // end of class Pair
+}
 
 interface Colorable {
-  public Color snake1 = Color.GREEN;
-  public Color snake2 = Color.GREEN;
-  public Color arena = Color.BLACK;
   public void changeColor();
-
 }
