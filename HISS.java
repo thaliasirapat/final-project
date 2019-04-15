@@ -26,9 +26,20 @@ public class HISS extends JPanel implements KeyListener {
   @Override
   public void keyPressed(KeyEvent e) {
     char c = e.getKeyChar();
-    arena.snakes.get(0).changeVelocity(c);
-    arena.snakes.get(1).changeVelocity(c);
+    Snake snake;
+    if ( c == 'w' ||c == 'a' || c == 's' || c == 'd') {
+      snake = arena.snakes.get(0);
+      snake.positionOfChange = snake.position;
+      snake.changeVelocity(c);
+    }
+    else if ( c == 'w' || c == 'w' || c == 'w'){
+      snake = arena.snakes.get(1);
+      snake.positionOfChange = snake.position;
+      snake.changeVelocity(c);
+    }
   }
+
+
 
   @Override
   public void keyReleased(KeyEvent e) {

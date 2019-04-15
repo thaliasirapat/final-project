@@ -9,30 +9,31 @@ public class Snake implements Colorable {
   private int inedibleCount = 0;
   public ArrayList<Segment> body;
   private Color color = Color.GREEN;
-  public int player; // we should have player 1 and 2 so the snake responds to different keys
-  public Arena arena; // i think we need to have this so that we can use arena as an argument
+  public Pair position;
+  public Pair velocity;
+  public int player;
+  public Arena arena;
   private Snake friend;
   public Pair positionOfChange = new Pair(0,0);
 
   public Snake(int player, Arena arena) {
     this.player = player;
     this.arena = arena;
-    Pair velocity = new Pair(0, -40);
-    Segment s1;
-    Pair position = new Pair(341,384);
-    if (player == 2) {
+    velocity = new Pair(0, -40);
+    if (player == 1) {
+      position = new Pair(341,384);
+    }
+    else if (player == 2) {
       position = new Pair(682,384);
     }
-    s1 = new Segment(position, velocity);
+    Segment s1 = new Segment(position, velocity);
     body = new ArrayList<Segment>();
     body.add(s1);
     Segment s2 = new Segment(s1.position.add(new Pair(0,20)), velocity);
     body.add(s2);
     Segment s3 = new Segment(s2.position.add(new Pair(0,20)), velocity);
     body.add(s3);
-    for (Segment s: body) {
-      s.velocity = velocity;
-    }
+
   }
 
   public void drawSnake(Graphics g){
@@ -43,59 +44,80 @@ public class Snake implements Colorable {
   }
 
   public void move(double time) {
-    for (int i=1; i<body.size(); ++i) {
-      if (!positionOfChange.equalsTo(new Pair(0,0)) && body.get(i).position.equalsTo(positionOfChange)) {
-        body.get(i).velocity = body.get(0).velocity;
+    for (int i = 0 ; i < body.size() ; ++ i){
+      Segment s = body.get(i);
+      if (!s.position.equalsTo(positionOfChange)) {
+        s.velocity = this.velocity;
       }
     }
     for (Segment s: body) {
+      position = position.add(velocity.times(time));
       s.position = s.position.add(s.velocity.times(time));
     }
   }
 
   public void changeVelocity(char c) {
-    if (player == 1) {
-      if (isMovingUp() || isMovingDown()) {
-        if (c == 'a') {
-          arena.snakes.get(0).body.get(0).velocity = new Pair(-40, 0);
-          positionOfChange = arena.snakes.get(0).body.get(0).position;
-        }
-        if (c == 'd') {
-          arena.snakes.get(0).body.get(0).velocity = new Pair(40, 0);
-          positionOfChange = arena.snakes.get(0).body.get(0).position;
-        }
+    Segment head = this.body.get(0);
+    changeHeadVelocity(c);
+    if (!head.velocity.equalsTo(this.body.get(1).velocity)){
+      changeBodyVelocity();
+    }
+  }
+
+  public void changeHeadVelocity(char c) {
+
+    Segment s = this.body.get(0);
+
+    if (isMovingUp() || isMovingDown()) {
+      if (c == 'a' || c == 'j') {
+        positionOfChange = s.position;
+        s.velocity = new Pair(-40,0);
       }
-      if (isMovingRight() || isMovingLeft()) {
-        if (c == 'w') {
-          arena.snakes.get(0).body.get(0).velocity = new Pair(0, -40);
-          positionOfChange = arena.snakes.get(0).body.get(0).position;
-        }
-        if (c == 's') {
-          arena.snakes.get(0).body.get(0).velocity = new Pair(0, 40);
-          positionOfChange = arena.snakes.get(0).body.get(0).position;
-        }
+      if (c == 'd'|| c == 'l') {
+        positionOfChange = s.position;
+        s.velocity = new Pair(40, 0);
       }
     }
-    if (player == 2) {
-      if (isMovingUp() || isMovingDown()) {
+    if (isMovingRight() || isMovingLeft()) {
+      if (c == 'w' || c == 'i') {
+        positionOfChange = s.position;
+        s.velocity = new Pair(0, -40);
+      }
+      if (c == 's' || c == 'k') {
+        positionOfChange = s.position;
+        s.velocity = new Pair(0, 40);
+      }
+    }
+  }
+
+    /*  if (isMovingUp() || isMovingDown()) {
         if (c == 'j') {
-          arena.snakes.get(1).body.get(0).velocity = new Pair(-40, 0);
-          positionOfChange = arena.snakes.get(0).body.get(0).position;
+          positionOfChange = s.position;
+          s.velocity = new Pair(-40, 0);
         }
         if (c == 'l') {
-          arena.snakes.get(1).body.get(0).velocity = new Pair(40, 0);
-          positionOfChange = arena.snakes.get(0).body.get(0).position;
+          positionOfChange = s.position;
+          s.velocity = new Pair(40, 0);
         }
       }
       if (isMovingRight() || isMovingLeft()) {
         if (c == 'i') {
-          arena.snakes.get(1).body.get(0).velocity = new Pair(0, -40);
-          positionOfChange = arena.snakes.get(0).body.get(0).position;
+          positionOfChange = s.position;
+          s.velocity = new Pair(0, -40);
         }
         if (c == 'k') {
-          arena.snakes.get(1).body.get(0).velocity = new Pair(0, 40);
-          positionOfChange = arena.snakes.get(0).body.get(0).position;
-        }
+          positionOfChange = s.position;
+          s.velocity = new Pair(0, 40);
+        } */
+
+
+
+
+  public void changeBodyVelocity(){
+    Segment head = this.body.get(0);
+    for (Segment b: body) {
+      if (b.position.equalsTo(positionOfChange)){
+        b.velocity = head.velocity;
       }
     }
   }
