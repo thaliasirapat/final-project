@@ -27,18 +27,61 @@ public class HISS extends JPanel implements KeyListener {
   public void keyPressed(KeyEvent e) {
     char c = e.getKeyChar();
     Snake snake;
-    if ( c == 'w' ||c == 'a' || c == 's' || c == 'd') {
-      snake = arena.snakes.get(0);
-      snake.positionOfChange = snake.position;
-      snake.changeVelocity(c);
-    }
-    else if ( c == 'w' || c == 'w' || c == 'w'){
-      snake = arena.snakes.get(1);
-      snake.positionOfChange = snake.position;
-      snake.changeVelocity(c);
-    }
-  }
+    Segment head;
 
+
+      if (c == 'w'){
+        snake = arena.snakes.get(0);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(0, -40);
+      }
+      else if (c == 's'){
+        snake = arena.snakes.get(0);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(0, 40);
+      }
+      else if (c == 'a'){
+        snake = arena.snakes.get(0);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(-40, 0);
+      }
+      else if (c == 'd'){
+        snake = arena.snakes.get(0);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(40, 0);
+      }
+
+
+
+      if (c == 'i'){
+        snake = arena.snakes.get(1);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(0, -40);
+      }
+      else if (c == 'k'){
+        snake = arena.snakes.get(1);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(0, 40);
+      }
+      else if (c == 'j'){
+        snake = arena.snakes.get(1);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(-40, 0);
+      }
+      else if (c == 'l'){
+        snake = arena.snakes.get(1);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(40, 0);
+      }
+    }
 
 
   @Override

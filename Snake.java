@@ -123,7 +123,12 @@ public class Snake implements Colorable {
   }
 
   public void update(double time) {
-    this.move(time);
+    move(time);
+    Segment head = this.body.get(0);
+    while (head.velocity != this.body.get(1).velocity){
+      changeBodyVelocity();
+      move(time);
+    }
   }
 
   public boolean isMovingUp() {
