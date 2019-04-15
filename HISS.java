@@ -26,9 +26,63 @@ public class HISS extends JPanel implements KeyListener {
   @Override
   public void keyPressed(KeyEvent e) {
     char c = e.getKeyChar();
-    arena.snakes.get(0).changeVelocity(c);
-    arena.snakes.get(1).changeVelocity(c);
-  }
+    Snake snake;
+    Segment head;
+
+
+      if (c == 'w'){
+        snake = arena.snakes.get(0);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(0, -40);
+      }
+      else if (c == 's'){
+        snake = arena.snakes.get(0);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(0, 40);
+      }
+      else if (c == 'a'){
+        snake = arena.snakes.get(0);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(-40, 0);
+      }
+      else if (c == 'd'){
+        snake = arena.snakes.get(0);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(40, 0);
+      }
+
+
+
+      if (c == 'i'){
+        snake = arena.snakes.get(1);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(0, -40);
+      }
+      else if (c == 'k'){
+        snake = arena.snakes.get(1);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(0, 40);
+      }
+      else if (c == 'j'){
+        snake = arena.snakes.get(1);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(-40, 0);
+      }
+      else if (c == 'l'){
+        snake = arena.snakes.get(1);
+        snake.positionOfChange = snake.position;
+        head = snake.body.get(0);
+        head.velocity = new Pair(40, 0);
+      }
+    }
+
 
   @Override
   public void keyReleased(KeyEvent e) {
