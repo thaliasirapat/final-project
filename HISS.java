@@ -12,9 +12,8 @@ import java.awt.Dimension;
 public class HISS extends JPanel implements KeyListener {
 
   public static final int FPS = 60;
-  public char c;
   public Arena arena;
-
+  public char c;
 
   public HISS (){
     arena = new Arena();
@@ -24,10 +23,32 @@ public class HISS extends JPanel implements KeyListener {
     mainThread.start();
   }
 
+  @Override
+  public void keyPressed(KeyEvent e) {
+    char c = e.getKeyChar();
+    arena.snakes.get(0).changeVelocity(c);
+    arena.snakes.get(1).changeVelocity(c);
+  }
+
+  @Override
+  public void keyReleased(KeyEvent e) {
+     char c = e.getKeyChar();
+   }
+
+  @Override
+  public void keyTyped(KeyEvent e) {
+    char c = e.getKeyChar();
+  }
+
+  public void addNotify() {
+      super.addNotify();
+      requestFocus();
+  }
+
   class Runner implements Runnable {
     public void run() {
       while (true) {
-        arena.update();
+        arena.update(FPS);
         repaint();
         try{
     		    Thread.sleep(1000/FPS);
@@ -52,107 +73,11 @@ public class HISS extends JPanel implements KeyListener {
 
     g.setColor(arena.color);
     g.fillRect(0, 0, arena.width, arena.height);
-
-    for (Snake s: arena.snakes){
-      s.drawSnake(g);
-    }
-
-    arena.drawScore(g);
     arena.drawItems(g);
-
+    arena.drawSnakes(g);
+    arena.drawScore(g);
   }
-
-/* Things to fix + Issues
-  - it closes on its own after a while (?)
-  - change method not responding
-  - the way the snake moves; the head has to be the focus of the snake
-
-*/
-  public void keyPressed(KeyEvent e) {
-    char c = e.getKeyChar();
-
-    Snake s1 = arena.snakes.get(0);
-    Snake s2 = arena.snakes.get(1);
-
-    if ( c == 'w') {
-      change(0,-20, s1);
-    }
-    else if (c == 's') {
-      s1.velocity = new Pair(0, 20);
-      change(0,20, s1);
-    }
-    else if ( c == 'a') {
-      change(-20,0,s1);
-    }
-    else if ( c == 'd') {
-      change(20,0,s1 );
-    }
-
-    if ( c == 'i') {
-      change(0,-20, s2);
-    }
-    else if (c == 'k') {
-      change(0,20, s2);
-    }
-    else if ( c == 'j') {
-      change(-20,0, s2);
-    }
-    else if ( c == 'l') {
-      change(20,0, s2);
-    }
-  }
-
-// NOT WORKING; REWRITE
-  public void change(int x, int y, Snake snake) {
-    Pair changePosition = snake.position;
-
-    if (snake.velocity.isPositiveX()) {
-      changePosition = snake.position.add(new Pair(5, 0));
-    }
-    if (!snake.velocity.isPositiveX()){
-      changePosition = snake.position.add(new Pair(-5, 0));
-    }
-    if (snake.velocity.isPositiveY()) {
-      changePosition = snake.position.add(new Pair(0, 5));
-    }
-    if (!snake.velocity.isPositiveY()) {
-      changePosition = snake.position.add(new Pair(0, -5));
-    }
-
-    for (Segment s: snake.body) {
-      if (s.position.equalsTo(changePosition))
-        s.velocity = new Pair(x,y);
-    }
-  }
-
-  public void keyReleased(KeyEvent e) {
-     char c = e.getKeyChar();
-     System.out.println("\tYou let go of: " + c);
-
-  }
-
-  public void keyTyped(KeyEvent e) {
-    char c = e.getKeyChar();
-    System.out.println("You typed: " + c);
-  }
-
-   public void addNotify() {
-      super.addNotify();
-      requestFocus();
-  }
-
-
-  //ends the game when user presses a key
-  public void endGame(char c) {
-    if ( c == 'b'){
-      System.out.println("Game Over!");
-      System.out.println("Your score is: " + arena.score);
-      System.exit(0);
-    }
-  }
-  //end of endGame
 }
-
 
 class Pair{
   public double x;
@@ -202,12 +127,8 @@ class Pair{
     }
     return false;
   }
-} // end of class Pair
+}
 
 interface Colorable {
-  public Color snake1 = Color.GREEN;
-  public Color snake2 = Color.GREEN;
-  public Color arena = Color.BLACK;
   public void changeColor();
-
 }
